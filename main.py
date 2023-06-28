@@ -131,13 +131,14 @@ def main():
         stim, delay, rt, corr, key_pressed = run_trial(win, conf, clock, fix_cross, go_left, go_right, nogo_left, nogo_right, poprzedni)
         RESULTS.append([PART_ID, sesja, trial_no, stim, delay, rt, corr, key_pressed])
 
-        # it's a good idea to show feedback during training trials
-        feedb = "Poprawnie" if corr == 1 else "Niepoprawnie"
-        feedb = visual.TextStim(win, text=feedb, height=50, color=conf['FIX_CROSS_COLOR'])
-        feedb.draw()
-        win.flip()
-        core.wait(1)
-        win.flip()
+        if sesja == 'Eksperyment':
+            # it's a good idea to show feedback during training trials
+            feedb = "Poprawnie" if corr == 1 else "Niepoprawnie"
+            feedb = visual.TextStim(win, text=feedb, height=50, color=conf['FIX_CROSS_COLOR'])
+            feedb.draw()
+            win.flip()
+            core.wait(1)
+            win.flip()
         poprzedni = stim
     show_info(win, join('.', 'messages', 'end.txt'))
 
@@ -148,7 +149,7 @@ def run_trial(win, conf, clock, fix_cross, go_left, go_right, nogo_left, nogo_ri
     global delay, go_left_cnt, nogo_left_cnt, go_right_cnt,  nogo_right_cnt
 
     # === Prepare trial-related stimulus ===
-    if poprzedni == go_left or poprzedni == go_right:
+    if poprzedni == 'go_left' or poprzedni == 'go_right':
         jak = random.choice([1, 1, 1, 2, 2])
         if jak == 1:
             stim = random.choice([go_left, go_right])
@@ -180,24 +181,31 @@ def run_trial(win, conf, clock, fix_cross, go_left, go_right, nogo_left, nogo_ri
     event.clearEvents()
     win.callOnFlip(clock.reset)
 
-
-    tak_dlugo_az_nie_bedzie_reakcji = 50
-    delay_cnt = 0
-    for _ in range(tak_dlugo_az_nie_bedzie_reakcji):  # present stimuli
-        if stim == nogo_left and delay_cnt < delay:
-            go_left.draw()
-            win.flip()
-            delay_cnt +=1
-        elif stim == nogo_right and delay_cnt < delay:
-            go_right.draw()
-            win.flip()
-            delay_cnt +=1
-        else:
+    if stim == nogo_left or stim == nogo_right:
+        tak_dlugo_az_nie_bedzie_reakcji = 50
+        delay_cnt = 0
+        for _ in range(tak_dlugo_az_nie_bedzie_reakcji):  # present stimuli
+            if stim == nogo_left and delay_cnt < delay:
+                go_left.draw()
+                win.flip()
+                delay_cnt +=1
+            elif stim == nogo_right and delay_cnt < delay:
+                go_right.draw()
+                win.flip()
+                delay_cnt +=1
+            else:
+                stim.draw()
+                win.flip()
+            reaction = event.getKeys(keyList=list(conf['REACTION_KEYS']), timeStamped=clock)
+            if reaction:  # break if any button was pressed
+                break
+    else:
+        while 1:
             stim.draw()
             win.flip()
-        reaction = event.getKeys(keyList=list(conf['REACTION_KEYS']), timeStamped=clock)
-        if reaction:  # break if any button was pressed
-            break
+            reaction = event.getKeys(keyList=list(conf['REACTION_KEYS']), timeStamped=clock)
+            if reaction:  # break if any button was pressed
+                break
 
 
     # === Trial ended, prepare data for send  ===
@@ -231,8 +239,3 @@ def run_trial(win, conf, clock, fix_cross, go_left, go_right, nogo_left, nogo_ri
 
 
 main()
-
-
-
-
-
