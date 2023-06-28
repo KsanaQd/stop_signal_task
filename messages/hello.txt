@@ -1,0 +1,6 @@
+W zadaniu będziesz reagować na wyświetlane po sobie na ekranie losowo strzałki. W tym celu trzymaj wskazujący palec lewej ręki na przycisku “D” oraz wskazujący palec prawej ręki na przycisku “K”. 
+
+Podczas zadania na ekranie pojawiać się będzie czarna strzałka wskazująca w lewo albo w prawo. Twoim zadaniem jest szybkie zareagowanie na strzałkę i wskazanie, w którym kierunku ona wskazuje, klikając odpowiedni przycisk na klawiaturze (D - w lewo, K - w prawo). 
+Czasami jednak, wyświetlona strzałka po krótkiej chwili zostanie zamalowana na czerwono. Będzie to sygnał dla Ciebie, abyś powstrzymał się od wykonania reakcji, czyli nie naciskał żadnego klawisza. Staraj się być jak najdokładniejszy w wykonywaniu reakcji ale jednocześnie jak najszybszy. 
+
+Kliknij przycisk SPACJI aby przejść dalej.

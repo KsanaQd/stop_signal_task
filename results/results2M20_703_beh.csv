@@ -1,0 +1,11 @@
+PART_ID,Session_name,Trial_no,Stim_type,Delay,Reaction time,Correctness,key
+2M20,Trening,0,go_left,5,0.3871542999986559,1,d
+2M20,Trening,1,go_right,5,0.26779019995592535,1,k
+2M20,Eksperyment,2,go_right,5,0.35145279997959733,1,k
+2M20,Eksperyment,3,go_left,5,0.25217819993849844,1,d
+2M20,Eksperyment,4,go_right,5,0.36731730005703866,1,k
+2M20,Eksperyment,5,go_left,5,0.2670339000178501,0,k
+2M20,Eksperyment,6,go_right,5,0.3010881000664085,0,d
+2M20,Eksperyment,7,go_right,5,0.41825960006099194,1,k
+2M20,Eksperyment,8,go_left,5,0.3669274999992922,1,d
+2M20,Eksperyment,9,go_left,5,0.2518541000317782,0,k
