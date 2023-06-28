@@ -131,7 +131,7 @@ def main():
         stim, delay, rt, corr, key_pressed = run_trial(win, conf, clock, fix_cross, go_left, go_right, nogo_left, nogo_right, poprzedni)
         RESULTS.append([PART_ID, sesja, trial_no, stim, delay, rt, corr, key_pressed])
 
-        if sesja == 'Eksperyment':
+        if sesja != 'Eksperyment':
             # it's a good idea to show feedback during training trials
             feedb = "Poprawnie" if corr == 1 else "Niepoprawnie"
             feedb = visual.TextStim(win, text=feedb, height=50, color=conf['FIX_CROSS_COLOR'])
