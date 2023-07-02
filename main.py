@@ -8,12 +8,7 @@ from typing import List, Dict, Tuple
 from os.path import join
 from psychopy import visual, event, logging, gui, core
 
-delay = 5
-poprzedni = 0
-go_left_cnt = 0
-nogo_left_cnt = 0
-go_right_cnt = 0
-nogo_right_cnt = 0
+
 
 @atexit.register
 def save_beh_results() -> None:  ## nie wywolujemy w kodzie, jak procedura bedzie wylaczona to zostana zapisane dane eksperymentalne. nawet jak nie dojdzie do konca ta prodecudra
@@ -105,8 +100,13 @@ def main():
     nogo_left = visual.ImageStim(win=win, image='./images/nogo_left.png', interpolate=True, size=(conf['STIM_SIZE'], conf['STIM_SIZE']))
     nogo_right = visual.ImageStim(win=win, image='./images/nogo_right.png', interpolate=True, size=(conf['STIM_SIZE'], conf['STIM_SIZE']))
 
-    global poprzedni, delay
+
+    delay = conf['PLUS_DELAY']
     poprzedni = random.choice([go_left, go_right, nogo_left, nogo_right])
+    go_left_cnt = 0
+    nogo_left_cnt = 0
+    go_right_cnt = 0
+    nogo_right_cnt = 0
 
 
 
@@ -128,7 +128,7 @@ def main():
         elif trial_no == (conf['TRENING'] + conf['EKSPERYMENT1'] + conf['EKSPERYMENT2'] + conf['EKSPERYMENT3']):  #    czwarta czesc eksperymentu
             show_info(win, join('.', 'messages', 'exp4.txt'))
 
-        stim, delay, rt, corr, key_pressed = run_trial(win, conf, clock, fix_cross, go_left, go_right, nogo_left, nogo_right, poprzedni)
+        stim, delay, rt, corr, key_pressed = run_trial(win, conf, clock, fix_cross, go_left, go_right, nogo_left, nogo_right, poprzedni, delay, go_left_cnt, nogo_left_cnt, go_right_cnt, nogo_right_cnt)
         RESULTS.append([PART_ID, sesja, trial_no, stim, delay, rt, corr, key_pressed])
 
         if sesja != 'Eksperyment':
@@ -144,9 +144,7 @@ def main():
 
 
 
-def run_trial(win, conf, clock, fix_cross, go_left, go_right, nogo_left, nogo_right, poprzedni) : #jeden poszczegolny trial, przyjmue duzo paramterow, i zwraca to co mierzymy w trakcie.
-
-    global delay, go_left_cnt, nogo_left_cnt, go_right_cnt,  nogo_right_cnt
+def run_trial(win, conf, clock, fix_cross, go_left, go_right, nogo_left, nogo_right, poprzedni, delay,go_left_cnt, nogo_left_cnt, go_right_cnt, nogo_right_cnt) : #jeden poszczegolny trial, przyjmue duzo paramterow, i zwraca to co mierzymy w trakcie.
 
     # === Prepare trial-related stimulus ===
     if poprzedni == 'go_left' or poprzedni == 'go_right':
@@ -159,8 +157,8 @@ def run_trial(win, conf, clock, fix_cross, go_left, go_right, nogo_left, nogo_ri
                 go_right_cnt += 1
         else:
             stim = random.choice([nogo_left,nogo_right])
-            if delay < 40:
-                delay += 5
+            if delay < conf['DELAY_LIMIT']:
+                delay += conf['PLUS_DELAY']
             if stim == nogo_left:
                 nogo_left_cnt += 1
             else:
